@@ -6,20 +6,12 @@ const session = require('express-session')
 // Allow requests from all origins
 
 const mongoose = require('mongoose');
-const googleAuth = require('./config/googleAuth')
 
 const randomSecret = require('crypto').randomBytes(64).toString('hex');
 
 const app = express();
 
-// Middleware
-app.use(session({
-  secret: randomSecret,
-  resave: false,
-  saveUninitialized: true
-}));
-app.use(passport.initialize());
-app.use(passport.session());
+
 
 app.use(cors());
 const connectDatabase = require('./config/connectionDB');
