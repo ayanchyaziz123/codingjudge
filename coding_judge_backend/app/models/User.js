@@ -6,11 +6,11 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   firstName: {
     type: String,
-    required: true
+  
   },
   lastName: {
     type: String,
-    required: true
+
   },
   username: {
     type: String,
@@ -28,11 +28,11 @@ const userSchema = new Schema({
   },
   dob: {
     type: Date,
-    required: true
+
   },
   country: {
     type: String,
-    required: true
+
   },
   priority: {
     type: Number,

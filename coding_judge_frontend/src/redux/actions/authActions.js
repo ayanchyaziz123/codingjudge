@@ -30,7 +30,7 @@ export const login = (email, password) => async (dispatch) => {
         }
 
         const { data } = await axios.post(
-            'http://localhost:4000/api/user/signIn',
+            'http://localhost:8000//auth/login',
             { 'email': email, 'password': password },
             config
         )
@@ -64,7 +64,7 @@ export const login = (email, password) => async (dispatch) => {
 
 
 
-export const register = (otp, email) => async (dispatch) => {
+export const register = (formData) => async (dispatch) => {
     try {
         dispatch({
             type: USER_REGISTER_REQUEST
@@ -78,7 +78,7 @@ export const register = (otp, email) => async (dispatch) => {
 
         const { data } = await axios.post(
             'http://localhost:8000/auth/register/',
-            { 'otp': otp, 'email': email },
+            formData,
             config
         )
 
