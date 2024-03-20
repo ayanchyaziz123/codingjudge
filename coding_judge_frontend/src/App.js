@@ -11,6 +11,10 @@ import ProblemsListPage from './pages/users/ProblemListPage';
 import LoginPage from './pages/common/LoginPage';
 import LeaderboardPage from './pages/users/LeaderboardPage';
 import ManageTestcasePage from './pages/admin/ManageTestcasePage';
+import ManageProblemsPage from './pages/admin/ManageProblemsPage';
+import AddProblem from './components/admin/AddProblem';
+
+
 
 
 
@@ -29,12 +33,13 @@ const App = () => {
           <Route path="/leaderboard" element={<LeaderboardPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-
-
+          <Route path="/manage_problem" element={<ManageProblemsPage />} />
           <Route path="/problems" element={<ProblemsListPage />} />
           <Route path="/testcase" element={<ManageTestcasePage />} />
           <Route path="/manage_user" element={<ManageUsersPage />} />
           <Route path="/test" element={<TestPage />} />
+          <Route path="/add_problem" element={<AddProblem />} />
+
         </Routes>
         <Footer/>
       </div>
