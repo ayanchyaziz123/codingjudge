@@ -1,14 +1,11 @@
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
-const GOOGLE_CLIENT_ID = '957777544743-jspnbil87g0imskku9d3u2jjl6it835i.apps.googleusercontent.com';
-const GOOGLE_CLIENT_SECRET = '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';
-const CALLBACK_URL = 'http://localhost:8000/auth/google/callback'; // This should match the redirect URI you provided when setting up your Google OAuth credentials
 
 const strategy = new GoogleStrategy(
   {
-    clientID: GOOGLE_CLIENT_ID,
-    clientSecret: GOOGLE_CLIENT_SECRET,
-    callbackURL: CALLBACK_URL,
+    clientID: process.env.clientID,
+    clientSecret: process.env.clientSecret,
+    callbackURL: process.env.callbackURL,
   },
   (accessToken, refreshToken, profile, done) => {
     // Handle authentication logic
