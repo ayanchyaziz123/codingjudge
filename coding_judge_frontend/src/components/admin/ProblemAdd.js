@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import RichTextField from './RichTextField'; // Import RichTextField component
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
 
-const AddProblem = ({ onAddProblem }) => {
+const ProblemAdd = ({ onAddProblem }) => {
   const navigate = useNavigate();
 
   // State variables to track form inputs
@@ -82,4 +82,4 @@ const AddProblem = ({ onAddProblem }) => {
   );
 };
 
-export default AddProblem;
+export default ProblemAdd;

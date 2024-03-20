@@ -12,7 +12,8 @@ import LoginPage from './pages/common/LoginPage';
 import LeaderboardPage from './pages/users/LeaderboardPage';
 import ManageTestcasePage from './pages/admin/ManageTestcasePage';
 import ManageProblemsPage from './pages/admin/ManageProblemsPage';
-import AddProblem from './components/admin/AddProblem';
+import ProblemAdd from './components/admin/ProblemAdd';
+import TagManagementPage from './pages/admin/TagManagementPage';
 
 
 
@@ -38,7 +39,8 @@ const App = () => {
           <Route path="/testcase" element={<ManageTestcasePage />} />
           <Route path="/manage_user" element={<ManageUsersPage />} />
           <Route path="/test" element={<TestPage />} />
-          <Route path="/add_problem" element={<AddProblem />} />
+          <Route path="/add_problem" element={<ProblemAdd />} />
+          <Route path="/manage_tag" element={<TagManagementPage />} />
 
         </Routes>
         <Footer/>

@@ -37,6 +37,15 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+
+      {/* Discussion Section */}
+      <section className="bg-gray-200 py-20">
+        <div className="container mx-auto text-center">
+          <h2 className="text-3xl font-bold mb-12">Join the Discussion</h2>
+          <p className="text-lg mb-8">Connect with fellow coders, ask questions, share tips, and collaborate on projects.</p>
+          <a href="/" className="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 hover:text-white">Join Now</a>
+        </div>
+      </section>
     </div>
   );
 };
