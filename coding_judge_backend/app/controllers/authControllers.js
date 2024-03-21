@@ -45,41 +45,56 @@ exports.register = async (req, res) => {
     res.status(500).json({ message: 'Internal server error' });
   }
 };
-
 exports.login = async (req, res, next) => {
   try {
-      const { email, password } = req.body;
-      const existingUser = await User.findOne({ email: email });
-      if (!existingUser) return res.status(400).json({ detail: "email does not exist" });
-      // if (!existingUser.verified) return res.status(400).json({ detail: "email is not verified" });
-      const isValidPassword = await bcrypt.compare(password, existingUser.password);
-      if (!isValidPassword) return res.status(400).json({ detail: "password does not match" });
+    const { email, password } = req.body;
+    console.log("Request Body:", req.body); // Log request body for debugging
 
+    // Find the user in the database
+    const existingUser = await User.findOne({ email: email });
+    console.log("Existing User:", existingUser); // Log existing user for debugging
 
-      const token = jwt.sign({
-          email: existingUser.email,
-          userId: existingUser._id
-      }, process.env.KEY, {
-          expiresIn: '1h'
-      })
-      const user_info = {
-          username: existingUser.username,
-          email: existingUser.email,
-          isAdmin: existingUser.isAdmin,
-          token: token
-      }
-      console.log("success")
-      return res.status(200).json({
-          "userInfo": user_info,
-          "message": "logIn successfully"
-      })
-  }
-  catch (error) {
-      return res.status(400).json({
-          detail: "Server error"
-      });
+    // If user doesn't exist, return error
+    if (!existingUser) {
+      console.log("User not found");
+      return res.status(400).json({ detail: "Email does not exist" });
+    }
+
+    // Verify password
+    const isValidPassword = await bcrypt.compare(password, existingUser.password);
+    if (!isValidPassword) {
+      console.log("Invalid password");
+      return res.status(400).json({ detail: "Password does not match" });
+    }
+
+    // Generate JWT token
+    const token = jwt.sign({
+      email: existingUser.email,
+      userId: existingUser._id
+    }, "Abcdef123", {
+      expiresIn: '1h'
+    });
+    console.log("Token:", token); // Log generated token for debugging
+
+    // Construct user info object
+    const user_info = {
+      username: existingUser.username,
+      email: existingUser.email,
+      isAdmin: existingUser.isAdmin,
+      token: token
+    };
+
+    console.log("Login successful");
+    return res.status(200).json({
+      userInfo: user_info,
+      message: "Login successful"
+    });
+  } catch (error) {
+    console.error("Login error:", error); // Log any errors that occur
+    return res.status(500).json({ detail: "Server error" });
   }
 }
+
 
 exports.logout = (req, res) => {
   // Implement logout logic

@@ -19,6 +19,7 @@ import {
 
 export const login = (email, password) => async (dispatch) => {
     try {
+        console.log("email", email)
         dispatch({
             type: USER_LOGIN_REQUEST
         })
@@ -30,7 +31,7 @@ export const login = (email, password) => async (dispatch) => {
         }
 
         const { data } = await axios.post(
-            'http://localhost:8000//auth/login',
+            'http://localhost:8000/auth/login',
             { 'email': email, 'password': password },
             config
         )
