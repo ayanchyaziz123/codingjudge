@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Import Link for navigation
 
-const ProblemsList = () => {
+
+const ProblemsListPage = () => {
   const [problems, setProblems] = useState([
     { id: 1, title: "Problem 1", description: "Description of Problem 1", tags: ["tag1", "tag2"], difficulty: "easy", isPublic: true },
     { id: 2, title: "Problem 2", description: "Description of Problem 2", tags: ["tag3", "tag4"], difficulty: "medium", isPublic: false },
@@ -70,4 +71,4 @@ const ProblemsList = () => {
 );
 };
 
-export default ProblemsList;
+export default ProblemsListPage;

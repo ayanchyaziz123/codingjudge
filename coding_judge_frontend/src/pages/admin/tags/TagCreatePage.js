@@ -1,31 +1,29 @@
+// TagCreatePage.js
 import React, { useState } from 'react';
 
-const TagAdd = ({ onAddTag }) => {
+function TagCreatePage({ onTagAdd }) {
   const [tagName, setTagName] = useState('');
   const [description, setDescription] = useState('');
 
-  // Function to handle changes in the tag name input field
-  const handleNameChange = (e) => {
+  const handleTagNameChange = (e) => {
     setTagName(e.target.value);
   };
 
-  // Function to handle changes in the description input field
   const handleDescriptionChange = (e) => {
     setDescription(e.target.value);
   };
 
-  // Function to handle the submission of a new tag
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!tagName.trim()) return;
-    onAddTag({ name: tagName, description });
-    setTagName('');
+    if (!tagName.trim()) return; // Prevent adding empty tag names
+    onTagAdd({ name: tagName, description });
+    setTagName(''); // Clear input fields after submission
     setDescription('');
   };
 
   return (
-    <div className="max-w-md mx-auto">
-      <h2 className="text-lg font-bold mb-4">Add New Tag</h2>
+    <div className="mx-auto max-w-md">
+      <h2 className="text-2xl font-semibold mb-4">Add New Tag</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="tagName" className="block text-sm font-medium text-gray-700">Tag Name</label>
@@ -33,9 +31,8 @@ const TagAdd = ({ onAddTag }) => {
             type="text"
             id="tagName"
             value={tagName}
-            onChange={handleNameChange}
-            className="mt-1 p-2 block w-full border rounded-md focus:outline-none focus:border-blue-500"
-            placeholder="Enter tag name"
+            onChange={handleTagNameChange}
+            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md px-4 py-2 border"
           />
         </div>
         <div>
@@ -44,20 +41,18 @@ const TagAdd = ({ onAddTag }) => {
             id="description"
             value={description}
             onChange={handleDescriptionChange}
-            rows="3"
-            className="mt-1 p-2 block w-full border rounded-md focus:outline-none focus:border-blue-500"
-            placeholder="Enter tag description"
+            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md px-4 py-2 border"
           ></textarea>
         </div>
         <button
           type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300 ease-in-out"
+          className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           Add Tag
         </button>
       </form>
     </div>
   );
-};
+}
 
-export default TagAdd;
+export default TagCreatePage;

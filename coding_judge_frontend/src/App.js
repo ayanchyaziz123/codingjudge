@@ -11,9 +11,14 @@ import ProblemsListPage from './pages/users/ProblemListPage';
 import LoginPage from './pages/common/LoginPage';
 import LeaderboardPage from './pages/users/LeaderboardPage';
 import ManageTestcasePage from './pages/admin/ManageTestcasePage';
-import ManageProblemsPage from './pages/admin/ManageProblemsPage';
-import ProblemAdd from './components/admin/ProblemAdd';
-import TagManagementPage from './pages/admin/TagManagementPage';
+import AdminProblemsListPage from './pages/admin/problems/ProblemsListPage';
+import ProblemAddPage from './pages/admin/problems/ProblemAddPage';
+import TagsListPage from './pages/admin/tags/TagsListPage';
+import TagCreatePage from './pages/admin/tags/TagCreatePage';
+import CategoriesListPage from './pages/admin/categories/CategoriesListPage';
+import CategoryCreatePage from './pages/admin/categories/CategoryCreatePage';
+
+
 
 
 
@@ -34,14 +39,18 @@ const App = () => {
           <Route path="/leaderboard" element={<LeaderboardPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/manage_problem" element={<ManageProblemsPage />} />
           <Route path="/problems" element={<ProblemsListPage />} />
           <Route path="/testcase" element={<ManageTestcasePage />} />
           <Route path="/manage_user" element={<ManageUsersPage />} />
           <Route path="/test" element={<TestPage />} />
-          <Route path="/add_problem" element={<ProblemAdd />} />
-          <Route path="/manage_tag" element={<TagManagementPage />} />
-
+          <Route path="/admin_problem_list" element={<AdminProblemsListPage />} />
+          <Route path="/add_problem" element={<ProblemAddPage />} />
+          <Route path="/tag_list" element={<TagsListPage />} />
+          <Route path="/tag_create" element={<TagCreatePage />} />
+          <Route path="/categories_list" element={<CategoriesListPage />} />
+          <Route path="/category_create" element={<CategoryCreatePage />} />
+          
+ 
         </Routes>
         <Footer/>
       </div>
