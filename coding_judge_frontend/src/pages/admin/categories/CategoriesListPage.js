@@ -1,5 +1,6 @@
 // CategoriesListPage.js
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const initialCategories = [
   { id: 1, name: 'Category 1', description: 'Description for Category 1' },
@@ -24,6 +25,11 @@ function CategoriesListPage() {
   return (
     <div className="container mx-auto">
       <h2 className="text-2xl font-semibold mb-4">Categories List</h2>
+      <Link to="/category_create">
+  <button className="mb-4 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+    Add New Category
+  </button>
+</Link>
       <table className="min-w-full">
         <thead>
           <tr>

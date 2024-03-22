@@ -16,8 +16,8 @@ import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/
 const products = [
   { name: 'Dashboard', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
   { name: 'Problems', description: 'Speak directly to your customers', href: 'problems', icon: CursorArrowRaysIcon },
-  { name: 'Tags', description: 'Your customers’ data will be safe and secure', href: '#', icon: FingerPrintIcon },
-  { name: 'Users', description: 'Connect with third-party tools', href: '#', icon: SquaresPlusIcon },
+  { name: 'Tags', description: 'Your customers’ data will be safe and secure', href: '/tag_list', icon: FingerPrintIcon },
+  { name: 'categories', description: 'Connect with third-party tools', href: '/categories_list', icon: SquaresPlusIcon },
   { name: 'Logout', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },
 ]
 const callsToAction = [
@@ -39,7 +39,7 @@ export default function Header() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
         <div className="flex lg:flex-1">
           <a href="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">Your Company</span>
+            <span className="sr-only">pijudge</span>
             <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
           </a>
         </div>

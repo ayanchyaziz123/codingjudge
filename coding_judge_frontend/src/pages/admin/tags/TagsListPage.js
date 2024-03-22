@@ -1,5 +1,6 @@
 // TagsListPage.js
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const initialTags = [
   { id: 1, name: 'Tag 1' },
@@ -18,7 +19,11 @@ function TagsListPage() {
   return (
     <div className="mx-auto max-w-3xl">
       <h2 className="text-2xl font-semibold mb-4">Tags List</h2>
-      <button className="mb-4 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add New Tag</button>
+      <Link to="/tag_create">
+  <button className="mb-4 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+    Add New Tag
+  </button>
+</Link>
       <table className="min-w-full divide-y divide-gray-200">
         <thead className="bg-gray-50">
           <tr>

@@ -9,48 +9,21 @@ import {
     CREATE_CATEGORY_FAILURE,
   } from '../constants/categoryConstants';
   
-  // Initial state for categories
-  const initialState = {
-    categories: [],
-    loading: false,
-    error: null,
-  };
   
   // Category reducer function
-  const categoryReducer = (state = initialState, action) => {
+  export const categoryCreateReducer = (state = {}, action) => {
     switch (action.type) {
-      case FETCH_CATEGORIES_REQUEST:
-      case CREATE_CATEGORY_REQUEST:
-        return {
-          ...state,
-          loading: true,
-          error: null,
-        };
-      case FETCH_CATEGORIES_SUCCESS:
-        return {
-          ...state,
-          loading: false,
-          categories: action.payload,
-          error: null,
-        };
-      case CREATE_CATEGORY_SUCCESS:
-        return {
-          ...state,
-          loading: false,
-          categories: [...state.categories, action.payload],
-          error: null,
-        };
-      case FETCH_CATEGORIES_FAILURE:
-      case CREATE_CATEGORY_FAILURE:
-        return {
-          ...state,
-          loading: false,
-          error: action.payload,
-        };
-      default:
-        return state;
-    }
-  };
+        case CREATE_CATEGORY_REQUEST:
+            return { loading: true }
   
-  export default categoryReducer;
+        case CREATE_CATEGORY_SUCCESS:
+            return { loading: false, userInfo: action.payload.categories }
+  
+        case CREATE_CATEGORY_FAILURE:
+            return { loading: false, error: action.payload }
+  
+        default:
+            return state
+    }
+  }
   

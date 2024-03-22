@@ -1,9 +1,13 @@
 // CategoryCreatePage.js
 import React, { useState } from 'react';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { categoryCreateAction } from '../../../redux/actions/categoryActions';
 function CategoryCreatePage({ onCategoryAdd }) {
   const [categoryName, setCategoryName] = useState('');
   const [categoryDescription, setCategoryDescription] = useState('');
+
+
+  const dispatch = useDispatch();
 
   const handleCategoryNameChange = (e) => {
     setCategoryName(e.target.value);
@@ -16,9 +20,7 @@ function CategoryCreatePage({ onCategoryAdd }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!categoryName.trim()) return; // Prevent adding empty category names
-    onCategoryAdd({ name: categoryName, description: categoryDescription });
-    setCategoryName('');
-    setCategoryDescription('');
+    dispatch(categoryCreateAction({ name: categoryName, description: categoryDescription }))
   };
 
   return (
