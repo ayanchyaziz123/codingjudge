@@ -1,21 +1,40 @@
 // redux/store.js
-import {thunk} from 'redux-thunk';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import adminReducer from './reducers/adminReducer';
-import userReducer from './reducers/userReducer';
-import { LoginReducer } from './reducers/authReducers';
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { thunk } from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension'
+
+import {
+    LoginReducer,
+} from './reducers/authReducers'
 
 
+const reducer = combineReducers({
+    userLogin: LoginReducer,
+})
 
 
-// Combine reducers if you have multiple reducers
-const rootReducer = combineReducers({
-  admin: adminReducer,
-  user: userReducer,
-  userLogin: LoginReducer,
-});
+// const cartItemsFromStorage = localStorage.getItem('cartItems') ?
+//     JSON.parse(localStorage.getItem('cartItems')) : []
 
-// Create the Redux store
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const userInfoFromStorage = localStorage.getItem('userInfo') ?
+    JSON.parse(localStorage.getItem('userInfo')) : null
 
-export default store;
+
+// const shippingAddressFromStorage = localStorage.getItem('shippingAddress') ?
+//     JSON.parse(localStorage.getItem('shippingAddress')) : {}
+
+
+const initialState = {
+    // cart: {
+    //     cartItems: cartItemsFromStorage,
+    //     shippingAddress: shippingAddressFromStorage,
+    // },
+    userLogin: { userInfo: userInfoFromStorage },
+}
+
+const middleware = [thunk]
+
+const store = createStore(reducer, initialState,
+    composeWithDevTools(applyMiddleware(...middleware)))
+
+export default store
