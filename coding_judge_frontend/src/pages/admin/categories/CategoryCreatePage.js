@@ -1,13 +1,25 @@
 // CategoryCreatePage.js
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { categoryCreateAction } from '../../../redux/actions/categoryActions';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 function CategoryCreatePage({ onCategoryAdd }) {
   const [categoryName, setCategoryName] = useState('');
   const [categoryDescription, setCategoryDescription] = useState('');
-
+  const categoryCreate = useSelector(state => state.categoryCreateReducer);
+  const {success, loading, category} = categoryCreate
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
+
+
+
+  useEffect(() => {
+    if(success){
+      navigate('/categories_list')
+    }
+}, [success])
 
   const handleCategoryNameChange = (e) => {
     setCategoryName(e.target.value);

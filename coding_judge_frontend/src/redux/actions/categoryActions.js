@@ -44,4 +44,24 @@ import {
         })
     }
 }
+
+export const categoryListAction = () => async (dispatch) => {
+    try {
+        dispatch({ type: FETCH_CATEGORIES_REQUEST })
+        const { data } = await axios.get('http://localhost:8000/category/categories',)
+
+        dispatch({
+            type: FETCH_CATEGORIES_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: FETCH_CATEGORIES_FAILURE,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        })
+    }
+}
   
