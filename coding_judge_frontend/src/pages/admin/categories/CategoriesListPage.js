@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { categoryListAction, categoryDeleteAction } from '../../../redux/actions/categoryActions';
+import PageLoader from '../../../components/common/PageLoader';
 
 function CategoriesListPage() {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ function CategoriesListPage() {
         </button>
       </Link>
       {loading ? (
-        <p>Loading...</p>
+        <PageLoader/>
       ) : (
         <table className="min-w-full">
           <thead>
