@@ -26,3 +26,16 @@ exports.listCategories = async (req, res) => {
   }
 };
 
+// Controller function to delete a category
+exports.deleteCategory = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedCategory = await Category.findByIdAndDelete(id);
+    if (!deletedCategory) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+    res.status(200).json({ message: "Category deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

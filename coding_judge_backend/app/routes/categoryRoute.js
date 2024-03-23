@@ -10,4 +10,7 @@ router.post('/create', categoryController.createCategory);
 // Route to list all categories
 router.get('/categories', categoryController.listCategories);
 
+// Route to delete a category
+router.delete('/delete/:id', categoryController.deleteCategory);
+
 module.exports = router;

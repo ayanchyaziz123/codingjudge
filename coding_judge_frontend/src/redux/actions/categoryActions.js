@@ -8,6 +8,9 @@ import {
     CREATE_CATEGORY_REQUEST,
     CREATE_CATEGORY_SUCCESS,
     CREATE_CATEGORY_FAILURE,
+    DELETE_CATEGORY_REQUEST,
+    DELETE_CATEGORY_SUCCESS,
+    DELETE_CATEGORY_FAILURE
   } from '../constants/categoryConstants';
   
   // Action creator to create a new category
@@ -64,4 +67,22 @@ export const categoryListAction = () => async (dispatch) => {
         })
     }
 }
+
+export const categoryDeleteAction = (categoryId) => async (dispatch) => {
+    try {
+        dispatch({ type: DELETE_CATEGORY_REQUEST });
+        await axios.delete(`http://localhost:8000/category/delete/${categoryId}`);
+        dispatch({
+            type: DELETE_CATEGORY_SUCCESS,
+            payload: categoryId
+        });
+    } catch (error) {
+        dispatch({
+            type: DELETE_CATEGORY_FAILURE,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        });
+    }
+};
   

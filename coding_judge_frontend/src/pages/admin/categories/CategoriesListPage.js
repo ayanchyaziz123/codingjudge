@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { categoryListAction } from '../../../redux/actions/categoryActions';
+import { categoryListAction, categoryDeleteAction } from '../../../redux/actions/categoryActions';
 
 function CategoriesListPage() {
   const dispatch = useDispatch();
   const { loading, categories } = useSelector(state => state.categoryListReducer);
+  const { success, error } = useSelector(state => state.categoryDeleteReducer);
 
   useEffect(() => {
     dispatch(categoryListAction());
-  }, [dispatch]);
+  }, [dispatch, success]); // Include success in the dependency array to refetch categories when a deletion is successful
 
   const handleEdit = (categoryId) => {
     // Handle edit action
@@ -17,14 +18,14 @@ function CategoriesListPage() {
   };
 
   const handleDelete = (categoryId) => {
-    // Handle delete action
-    console.log(`Deleting category with id ${categoryId}`);
-    // You should dispatch an action to delete category from Redux store
+    dispatch(categoryDeleteAction(categoryId));
   };
 
   return (
     <div className="container mx-auto">
       <h2 className="text-2xl font-semibold mb-4">Categories List</h2>
+      {success && <p className="text-green-600">Category deleted successfully.</p>} {/* Display success message if deletion is successful */}
+      {error && <p className="text-red-600">{error}</p>} {/* Display error message if deletion fails */}
       <Link to="/category_create">
         <button className="mb-4 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
           Add New Category

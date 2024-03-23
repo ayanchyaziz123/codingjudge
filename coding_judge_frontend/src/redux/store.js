@@ -6,7 +6,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import {
     LoginReducer,
 } from './reducers/authReducers'
-import {categoryCreateReducer, categoryListReducer} from './reducers/categoryReducers';
+import {categoryCreateReducer, categoryListReducer, categoryDeleteReducer} from './reducers/categoryReducers';
 
 
 
@@ -14,6 +14,7 @@ const reducer = combineReducers({
     userLogin: LoginReducer,
     categoryCreateReducer: categoryCreateReducer,
     categoryListReducer: categoryListReducer,
+    categoryDeleteReducer: categoryDeleteReducer,
 })
 
 
