@@ -15,7 +15,7 @@ import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/
 
 const products = [
   { name: 'Dashboard', description: 'Get a better understanding of your traffic', href: '#', icon: ChartPieIcon },
-  { name: 'Problems', description: 'Speak directly to your customers', href: 'problems', icon: CursorArrowRaysIcon },
+  { name: 'Problems', description: 'Speak directly to your customers', href: '/admin_problem_list', icon: CursorArrowRaysIcon },
   { name: 'Tags', description: 'Your customers’ data will be safe and secure', href: '/tag_list', icon: FingerPrintIcon },
   { name: 'categories', description: 'Connect with third-party tools', href: '/categories_list', icon: SquaresPlusIcon },
   { name: 'Logout', description: 'Build strategic funnels that will convert', href: '#', icon: ArrowPathIcon },

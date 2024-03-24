@@ -12,11 +12,13 @@ import LoginPage from './pages/common/LoginPage';
 import LeaderboardPage from './pages/users/LeaderboardPage';
 import ManageTestcasePage from './pages/admin/ManageTestcasePage';
 import AdminProblemsListPage from './pages/admin/problems/ProblemsListPage';
-import ProblemAddPage from './pages/admin/problems/ProblemAddPage';
+import ProblemCreatePage from './pages/admin/problems/ProblemCreatePage';
 import TagsListPage from './pages/admin/tags/TagsListPage';
 import TagCreatePage from './pages/admin/tags/TagCreatePage';
 import CategoriesListPage from './pages/admin/categories/CategoriesListPage';
 import CategoryCreatePage from './pages/admin/categories/CategoryCreatePage';
+import ProblemDetailPage from './pages/users/ProblemDetailPage';
+
 
 
 
@@ -39,16 +41,17 @@ const App = () => {
           <Route path="/leaderboard" element={<LeaderboardPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/problems" element={<ProblemsListPage />} />
+          <Route path="/problem_list" element={<ProblemsListPage />} />
           <Route path="/testcase" element={<ManageTestcasePage />} />
           <Route path="/manage_user" element={<ManageUsersPage />} />
           <Route path="/test" element={<TestPage />} />
           <Route path="/admin_problem_list" element={<AdminProblemsListPage />} />
-          <Route path="/add_problem" element={<ProblemAddPage />} />
+          <Route path="/problem_create" element={<ProblemCreatePage />} />
           <Route path="/tag_list" element={<TagsListPage />} />
           <Route path="/tag_create" element={<TagCreatePage />} />
           <Route path="/categories_list" element={<CategoriesListPage />} />
           <Route path="/category_create" element={<CategoryCreatePage />} />
+          <Route path="/problem_detail" element={<ProblemDetailPage />} />
           
  
         </Routes>

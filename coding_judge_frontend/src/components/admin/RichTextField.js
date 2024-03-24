@@ -1,33 +1,40 @@
-import React from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import React, { useState } from 'react';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
-const RichTextField = ({ value, onChange }) => {
-  const modules = {
-    toolbar: [
-      [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
-      [{ 'size': [] }],
-      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-      ['link', 'image', 'video'],
-      ['clean']
-    ],
+const RichTextField = ({ initialContent, onContentChange }) => {
+  const [editorState, setEditorState] = useState(() => {
+    if (initialContent) {
+      // If initialContent is provided, convert it to EditorState
+      const contentState = convertFromRaw(JSON.parse(initialContent));
+      return EditorState.createWithContent(contentState);
+    } else {
+      // Otherwise, create a new empty EditorState
+      return EditorState.createEmpty();
+    }
+  });
+
+  // Function to handle editor state changes
+  const handleEditorStateChange = (newEditorState) => {
+    setEditorState(newEditorState);
+    if (onContentChange) {
+      // Convert EditorState to raw JSON and pass it to the parent component
+      const contentState = convertToRaw(newEditorState.getCurrentContent());
+      onContentChange(JSON.stringify(contentState));
+    }
   };
 
-  const formats = [
-    'header', 'font', 'size',
-    'bold', 'italic', 'underline', 'strike', 'blockquote',
-    'list', 'bullet', 'indent',
-    'link', 'image', 'video'
-  ];
-
   return (
-    <ReactQuill
-      value={value}
-      onChange={onChange}
-      modules={modules}
-      formats={formats}
-    />
+    <div style={{ border: '1px solid #ccc', borderRadius: '4px', padding: '10px' }}>
+      <Editor
+        editorState={editorState}
+        onEditorStateChange={handleEditorStateChange}
+        toolbar={{
+          options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link', 'embedded', 'emoji', 'image', 'remove', 'history'],
+        }}
+      />
+    </div>
   );
 };
 

@@ -7,6 +7,7 @@ import {
     LoginReducer,
 } from './reducers/authReducers'
 import {categoryCreateReducer, categoryListReducer, categoryDeleteReducer} from './reducers/categoryReducers';
+import { problemCreateReducer, problemListReducer, problemDeleteReducer } from './reducers/problemReducers';
 
 
 
@@ -15,6 +16,9 @@ const reducer = combineReducers({
     categoryCreateReducer: categoryCreateReducer,
     categoryListReducer: categoryListReducer,
     categoryDeleteReducer: categoryDeleteReducer,
+    problemCreateReducer: problemCreateReducer,
+    problemListReducer: problemListReducer,
+    problemDeleteReducer: problemDeleteReducer
 })
 
 

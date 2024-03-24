@@ -13,4 +13,10 @@ router.get('/categories', categoryController.listCategories);
 // Route to delete a category
 router.delete('/delete/:id', categoryController.deleteCategory);
 
+// Route to get a category by ID
+router.get('/:id', categoryController.getCategoryById);
+
+// Route to edit a category
+router.put('/edit/:id', categoryController.editCategory);
+
 module.exports = router;

@@ -39,3 +39,32 @@ exports.deleteCategory = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// Controller function to get a category by ID
+exports.getCategoryById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const category = await Category.findById(id);
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+    res.status(200).json(category);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// Controller function to edit a category
+exports.editCategory = async (req, res) => {
+  const { id } = req.params;
+  const { name, description } = req.body;
+  try {
+    const updatedCategory = await Category.findByIdAndUpdate(id, { name, description }, { new: true });
+    if (!updatedCategory) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+    res.status(200).json(updatedCategory);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

@@ -3,33 +3,25 @@ const mongoose = require('mongoose');
 // Define the schema for the Problem model
 const problemSchema = new mongoose.Schema({
   title: {
-    bangla: {
-      type: String,
-      required: true
-    },
-    english: {
-      type: String,
-      required: true
-    }
+    type: String,
+    required: true
   },
   description: {
-    bangla: {
-      type: String,
-      required: true
-    },
-    english: {
-      type: String,
-      required: true
-    }
+    type: String,
+    required: true
   },
-  tags: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Tag'
-  }],
   difficulty: {
     type: String,
     enum: ['easy', 'medium', 'hard'],
     required: true
+  },
+  timeLimit: {
+    type: Number,
+    required: true // in milliseconds
+  },
+  memoryLimit:{
+    type: Number,
+    required: true // in MB
   },
   isPublic: {
     type: Boolean,

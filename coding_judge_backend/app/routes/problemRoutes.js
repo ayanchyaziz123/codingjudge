@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const problemController = require('../controllers/problemController');
+const problemController = require('../controllers/problemControllers');
 
 // Routes for problems
 router.post('/create', problemController.createProblem);
