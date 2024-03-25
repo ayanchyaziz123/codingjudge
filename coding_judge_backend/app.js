@@ -17,6 +17,7 @@ const connectDatabase = require('./config/connectionDB');
 const authRoutes = require('./app/routes/authRoutes'); // Import authentication routes
 const categoryRoutes = require('./app/routes/categoryRoute'); // Import category routes
 const problemRoutes = require('./app/routes/problemRoutes');
+const testCaseRoutes = require('./app/routes/testCaseRoutes');
 
 // Get the connection URI from your environment variables or configuration file
 const uri = process.env.MONGODB_URI; // Or your MongoDB connection URI
@@ -28,6 +29,7 @@ app.use(express.json()); // Middleware to parse JSON requests
 app.use('/auth', authRoutes); // Use authentication routes with base URL '/auth'
 app.use('/category', categoryRoutes);
 app.use('/problem', problemRoutes);
+app.use('/testCase', problemRoutes);
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

@@ -56,7 +56,7 @@ export default function Header() {
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
 
 
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <a href="/problem_list" className="text-sm font-semibold leading-6 text-gray-900">
             Problems
           </a>
           <a href="#" className="text-sm font-semibold leading-6 text-gray-900">

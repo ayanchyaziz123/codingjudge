@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { problemListAction } from '../../redux/actions/problemActions';
+import PageLoader from '../../components/common/PageLoader';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ProblemsListPage = () => {
   // Sample problems data
-  const problems = [
-    { id: 1, status: "Solved", title: "Problem 1", solution: "Solution 1", acceptance: "90%", difficulty: "Easy", frequency: "Weekly", tags: ["Array", "Sorting"] },
-    { id: 2, status: "Unsolved", title: "Problem 2", solution: "Solution 2", acceptance: "75%", difficulty: "Medium", frequency: "Monthly", tags: ["String", "Dynamic Programming"] },
-    { id: 3, status: "Solved", title: "Problem 3", solution: "Solution 3", acceptance: "85%", difficulty: "Hard", frequency: "Biweekly", tags: ["Graph", "Backtracking"] },
-    // Add more problems as needed
-  ];
+
+  const dispatch = useDispatch();
+  const { loading, problems } = useSelector(state => state.problemListReducer);
+  const { success, error } = useSelector(state => state.problemDeleteReducer);
+
+  useEffect(() => {
+    dispatch(problemListAction());
+  }, [dispatch, success]); // Include success in the dependency array to refetch problems when a deletion is successful
+     
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -34,38 +41,36 @@ const ProblemsListPage = () => {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
+               
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Title
                   </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Solution
-                  </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Acceptance
-                  </th>
+             
+                
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Difficulty
                   </th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Frequency
-                  </th>
+            
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              {
+                loading ? <PageLoader/> : 
+                <tbody className="bg-white divide-y divide-gray-200">
                 {problems.map(problem => (
                   <tr key={problem.id}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{problem.status}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{problem.title}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{problem.solution}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{problem.acceptance}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+           
+                    <Link to={`/problem_detail/${problem._id}`} className="text-blue-500 hover:underline">
+                      {problem.title}
+                    </Link>
+                    </td>
+        
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{problem.difficulty}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{problem.frequency}</td>
+
                   </tr>
                 ))}
               </tbody>
+              }
             </table>
           </div>
         </div>

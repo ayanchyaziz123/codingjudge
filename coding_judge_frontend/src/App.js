@@ -18,12 +18,7 @@ import TagCreatePage from './pages/admin/tags/TagCreatePage';
 import CategoriesListPage from './pages/admin/categories/CategoriesListPage';
 import CategoryCreatePage from './pages/admin/categories/CategoryCreatePage';
 import ProblemDetailPage from './pages/users/ProblemDetailPage';
-
-
-
-
-
-
+import TestCaseCreatePage from './pages/admin/testcases/TestCaseCreatePage';
 
 
 
@@ -52,6 +47,7 @@ const App = () => {
           <Route path="/categories_list" element={<CategoriesListPage />} />
           <Route path="/category_create" element={<CategoryCreatePage />} />
           <Route path="/problem_detail/:id" element={<ProblemDetailPage />} />
+          <Route path="/testcase_create" element={<TestCaseCreatePage />} />
           
  
         </Routes>
