@@ -1,23 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import MonacoEditor from 'react-monaco-editor';
-import 'monaco-editor/esm/vs/editor/editor.all.js'; // Import Monaco Editor
+import { useDispatch, useSelector } from 'react-redux';
+import { ProblemGetByIdAction } from '../../redux/actions/problemActions';
+import parse from 'html-react-parser';
+import PageLoader from '../../components/common/PageLoader';
+import { stateToHTML } from 'draft-js-export-html'; // Import the stateToHTML function
+import RichTextField from '../../components/admin/RichTextField';
+import Description from '../../components/common/Description';
+
+
 
 function ProblemDetailPage() {
-  const { problemId } = useParams(); // Assuming you have a route parameter for problemId
+  const { id } = useParams();
   const [code, setCode] = useState('');
   const [output, setOutput] = useState('');
-  const [selectedLanguage, setSelectedLanguage] = useState('javascript'); // Default language is JavaScript
+  const [selectedLanguage, setSelectedLanguage] = useState('javascript');
+  const dispatch = useDispatch();
+  const { loading, problem, error } = useSelector(state => state.problemGetByIdReducer);
 
-  // Static sample problem
-  const problem = {
-    id: '1',
-    title: 'Two Sum',
-    description: 'Given an array of integers, return indices of the two numbers such that they add up to a specific target. You may assume that each input would have exactly one solution, and you may not use the same element twice. You can return the answer in any order. Given an array of integers, return indices of the two numbers such that they add up to a specific target.\nYou may assume that each input would have exactly one solution, and you may not use the same element twice.\nYou can return the answer in any order.',
-    constraints: 'The solution should have a time complexity of O(n).',
-    sampleInput: '[2,7,11,15]\n9',
-    sampleOutput: '[0,1]'
-  };
+  console.log(problem.description)
+  useEffect(() => {
+    // Fetch problem details when component mounts
+    dispatch(ProblemGetByIdAction(id));
+  }, [dispatch, id]);
 
   const handleCodeChange = (newValue) => {
     setCode(newValue);
@@ -45,22 +51,26 @@ function ProblemDetailPage() {
 
   return (
     <div className="container mx-auto px-4 py-2 flex flex-col md:flex-row">
-      <div className="mb-4 md:mb-0 md:pr-4 flex-1 overflow-auto"> {/* Adjusted width and added overflow */}
+      <div className="mb-4 md:mb-0 md:pr-4 flex-1 overflow-auto">
         <h2 className="text-2xl font-semibold mb-4">Problem Details</h2>
         <div className="problem-details-container">
-          {problem ? (
+          {loading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p>Error: {error}</p>
+          ) : problem ? (
             <div>
               <h3 className="text-xl font-semibold mb-2">{problem.title}</h3>
-              <div className="problem-description">{problem.description}</div>
+              <div className="problem-description">
+                <Description initialContent={problem.description} disabled="disabled"/>
+              </div>
+              {/* <div>{parse(stateToHTML(problem.description))}</div> */}
               <h4 className="text-lg font-semibold mb-2">Constraints</h4>
               <div className="problem-constraints">{problem.constraints}</div>
-              <h4 className="text-lg font-semibold mb-2">Sample Input</h4>
-              <pre className="bg-gray-100 p-4 mb-4">{problem.sampleInput}</pre>
-              <h4 className="text-lg font-semibold mb-2">Sample Output</h4>
-              <pre className="bg-gray-100 p-4 mb-4">{problem.sampleOutput}</pre>
+             
             </div>
           ) : (
-            <p>Loading...</p>
+            <p>No problem details available</p>
           )}
         </div>
       </div>
@@ -86,11 +96,11 @@ function ProblemDetailPage() {
             options={{
               selectOnLineNumbers: true,
               scrollbar: {
-                useShadows: false, // Removes shadows around the scroll bar
-                vertical: 'visible', // Always show vertical scrollbar
-                horizontal: 'visible', // Always show horizontal scrollbar
-                horizontalScrollbarSize: 10, // Increase the size of horizontal scrollbar
-                verticalScrollbarSize: 10 // Increase the size of vertical scrollbar
+                useShadows: false,
+                vertical: 'visible',
+                horizontal: 'visible',
+                horizontalScrollbarSize: 10,
+                verticalScrollbarSize: 10
               }
             }}
             onChange={handleCodeChange}

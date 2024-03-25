@@ -8,9 +8,30 @@ import {
     CREATE_PROBLEM_FAILURE,
     DELETE_PROBLEM_REQUEST,
     DELETE_PROBLEM_SUCCESS,
-    DELETE_PROBLEM_FAILURE
+    DELETE_PROBLEM_FAILURE,
+    GET_PROBLEM_BY_ID_REQUEST,
+    GET_PROBLEM_BY_ID_SUCCESS,
+    GET_PROBLEM_BY_ID_FAILURE
 } from '../constants/problemConstants';
 
+
+export const ProblemGetByIdAction = (problemId) => async (dispatch) => {
+    try {
+        dispatch({ type: GET_PROBLEM_BY_ID_REQUEST });
+        const { data } = await axios.get(`http://localhost:8000/problem/get/${problemId}`);
+        dispatch({
+            type: GET_PROBLEM_BY_ID_SUCCESS,
+            payload: data,
+        });
+    } catch (error) {
+        dispatch({
+            type: GET_PROBLEM_BY_ID_FAILURE,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        });
+    }
+};
 export const problemCreateAction = (formData) => async (dispatch) => {
     console.log(formData)
     try {

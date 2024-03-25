@@ -51,7 +51,7 @@ const App = () => {
           <Route path="/tag_create" element={<TagCreatePage />} />
           <Route path="/categories_list" element={<CategoriesListPage />} />
           <Route path="/category_create" element={<CategoryCreatePage />} />
-          <Route path="/problem_detail" element={<ProblemDetailPage />} />
+          <Route path="/problem_detail/:id" element={<ProblemDetailPage />} />
           
  
         </Routes>

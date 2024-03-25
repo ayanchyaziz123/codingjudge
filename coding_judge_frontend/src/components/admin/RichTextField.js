@@ -26,7 +26,7 @@ const RichTextField = ({ initialContent, onContentChange }) => {
   };
 
   return (
-    <div style={{ border: '1px solid #ccc', borderRadius: '4px', padding: '10px' }}>
+    <div>
       <Editor
         editorState={editorState}
         onEditorStateChange={handleEditorStateChange}

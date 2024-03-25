@@ -29,9 +29,9 @@ function ProblemCreatePage() {
   };
 
   const handleProblemDescriptionChange = (content) => {
+    console.log(content)
     setProblemDescription(content);
   };
-  
 
   const handleDifficultyChange = (e) => {
     setDifficulty(e.target.value);
@@ -133,8 +133,8 @@ function ProblemCreatePage() {
           <div className="flex flex-col">
             <label htmlFor="problemDescription" className="block text-sm font-medium text-gray-700 mb-1">Problem Description</label>
             <RichTextField
-              value={problemDescription}
-              onChange={handleProblemDescriptionChange}
+              initialContent={problemDescription}  // Pass initialContent to RichTextField
+              onContentChange={handleProblemDescriptionChange} // Pass onContentChange to RichTextField
             />
           </div>
         </div>

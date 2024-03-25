@@ -89,7 +89,7 @@ export const problemGetByIdReducer = (state = { problem: {} }, action) => {
             return { loading: true, problem: {} };
 
         case GET_PROBLEM_BY_ID_SUCCESS:
-            return { loading: false, problem: action.payload };
+            return { loading: false, problem: action.payload.problem };
 
         case GET_PROBLEM_BY_ID_FAILURE:
             return { loading: false, error: action.payload };
