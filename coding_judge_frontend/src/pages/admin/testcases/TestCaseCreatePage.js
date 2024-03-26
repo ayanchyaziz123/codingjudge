@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { problemListAction } from '../../../redux/actions/problemActions';
+import PageLoader from '../../../components/common/PageLoader';
+import { testCaseCreateAction } from '../../../redux/actions/testcseActions';
 
 function TestCaseCreatePage({ onTestCaseAdd }) {
-  const [problemIdOptions, setProblemIdOptions] = useState([]);
+  const dispatch = useDispatch();
+
   const [selectedProblemId, setSelectedProblemId] = useState('');
   const [title, setTitle] = useState('');
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
 
-  useEffect(() => {
-    fetchProblemIdOptions();
-  }, []);
+  const { problems } = useSelector(state => state.problemListReducer);
+  const { success, loading } = useSelector(state => state.testcaseCreateReducer);
 
-  const fetchProblemIdOptions = async () => {
-    try {
-      const response = await axios.get('/problems/get_all'); // Adjust the route according to your backend setup
-      setProblemIdOptions(response.data.problems.map(problem => ({ id: problem._id, title: problem.title })));
-    } catch (error) {
-      console.error('Error fetching problem ID options:', error);
-    }
-  };
+  useEffect(() => {
+    dispatch(problemListAction());
+  }, [dispatch]);
 
   const handleProblemIdChange = (e) => {
     setSelectedProblemId(e.target.value);
@@ -31,7 +29,6 @@ function TestCaseCreatePage({ onTestCaseAdd }) {
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
-    console.log("input: ", input)
   };
 
   const handleOutputChange = (e) => {
@@ -40,9 +37,11 @@ function TestCaseCreatePage({ onTestCaseAdd }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    alert("yes")
     if (!selectedProblemId || !title.trim() || !input.trim() || !output.trim()) return; // Prevent adding empty fields
-    onTestCaseAdd({ problemId: selectedProblemId, title, input, output });
-    setSelectedProblemId(''); // Clear input fields after submission
+    dispatch(testCaseCreateAction({ problemId: selectedProblemId, title, input, output }));
+    // Clear input fields after submission
+    setSelectedProblemId('');
     setTitle('');
     setInput('');
     setOutput('');
@@ -61,8 +60,8 @@ function TestCaseCreatePage({ onTestCaseAdd }) {
             className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md px-4 py-2 border"
           >
             <option value="">Select a problem...</option>
-            {problemIdOptions.map(problem => (
-              <option key={problem.id} value={problem.id}>{problem.title}</option>
+            {problems.map(problem => (
+              <option key={problem._id} value={problem._id}>{problem.title}</option>
             ))}
           </select>
         </div>
@@ -96,10 +95,12 @@ function TestCaseCreatePage({ onTestCaseAdd }) {
         </div>
         <button
           type="submit"
-          className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          disabled={loading} // Disable button while loading
+          className={`inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 ${loading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'}`}
         >
-          Add Test Case
+          {loading ? <PageLoader size={6} /> : 'Add Test Case'}
         </button>
+        {success && <p className="text-green-500 mt-2">Test case added successfully!</p>}
       </form>
     </div>
   );
