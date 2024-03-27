@@ -7,7 +7,7 @@ import {
 } from './reducers/authReducers'
 import {categoryCreateReducer, categoryListReducer, categoryDeleteReducer} from './reducers/categoryReducers';
 import { problemCreateReducer, problemListReducer, problemDeleteReducer, problemGetByIdReducer } from './reducers/problemReducers';
-import { testcaseCreateReducer } from './reducers/testcaseReducers';
+import { testcaseCreateReducer, testcaseRunReducer } from './reducers/testcaseReducers';
 
 
 
@@ -20,7 +20,8 @@ const reducer = combineReducers({
     problemListReducer: problemListReducer,
     problemDeleteReducer: problemDeleteReducer,
     problemGetByIdReducer: problemGetByIdReducer,
-    testcaseCreateReducer: testcaseCreateReducer
+    testcaseCreateReducer: testcaseCreateReducer,
+    testcaseRunReducer: testcaseRunReducer
 })
 
 

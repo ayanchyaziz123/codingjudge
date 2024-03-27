@@ -8,7 +8,13 @@ import {
     CREATE_TEST_CASE_FAILURE,
     DELETE_TEST_CASE_REQUEST,
     DELETE_TEST_CASE_SUCCESS,
-    DELETE_TEST_CASE_FAILURE
+    DELETE_TEST_CASE_FAILURE,
+    RUN_TEST_CASE_REQUEST,
+    RUN_TEST_CASE_SUCCESS,
+    RUN_TEST_CASE_FAILURE,
+    SUBMIT_TEST_CASE_REQUEST,
+    SUBMIT_TEST_CASE_SUCCESS,
+    SUBMIT_TEST_CASE_FAILURE
 } from '../constants/testcaseConstants';
 
 export const testCasesFetch = () => async (dispatch) => {
@@ -69,3 +75,33 @@ export const testCaseDelete = (testCaseId) => async (dispatch) => {
         });
     }
 };
+
+export const testCaseRunAction = (submissionData) => async (dispatch) => {
+    try {
+        dispatch({ type: RUN_TEST_CASE_REQUEST });
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        };
+        const { data } = await axios.post('http://localhost:8000/testcase/run', submissionData, config);
+        dispatch({
+            type: RUN_TEST_CASE_SUCCESS,
+            payload: data // You can pass additional data if needed
+        });
+    } catch (error) {
+        dispatch({
+            type: RUN_TEST_CASE_FAILURE,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        });
+    }
+};
+
+
+
+
+
+
+

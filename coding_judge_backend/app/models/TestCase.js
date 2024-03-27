@@ -11,11 +11,11 @@ const testCaseSchema = new mongoose.Schema({
     required: true
   },
   input: {
-    type: mongoose.Schema.Types.Mixed,
+    type: String,
     required: true
   },
   output: {
-    type: mongoose.Schema.Types.Mixed,
+    type: String,
     required: true
   }
 });
