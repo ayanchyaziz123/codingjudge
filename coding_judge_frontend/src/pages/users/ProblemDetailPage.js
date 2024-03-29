@@ -1,25 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
-import MonacoEditor from 'react-monaco-editor';
+import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import MonacoEditor from 'react-monaco-editor';
 import { ProblemGetByIdAction } from '../../redux/actions/problemActions';
-import parse from 'html-react-parser';
+import { testCaseRunAction } from '../../redux/actions/testcseActions';
 import PageLoader from '../../components/common/PageLoader';
-import { stateToHTML } from 'draft-js-export-html';
-import RichTextField from '../../components/admin/RichTextField';
 import Description from '../../components/common/Description';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { testCaseRunAction } from '../../redux/actions/testcseActions'; // Import testCaseRunAction
 
 function ProblemDetailPage() {
   const { id } = useParams();
   const [code, setCode] = useState('');
-  const [output, setOutput] = useState('');
-  const [selectedLanguage, setSelectedLanguage] = useState('javascript');
+  const [selectedLanguage, setSelectedLanguage] = useState('python');
   const dispatch = useDispatch();
   const { loading, problem, error } = useSelector(state => state.problemGetByIdReducer);
-  const { userInfo } = useSelector(state => state.userLogin);
-  const navigate = useNavigate()
+  const results = useSelector(state => state.testcaseRunReducer?.results);
+  const userInfo = useSelector(state => state.userLogin.userInfo);
 
   useEffect(() => {
     dispatch(ProblemGetByIdAction(id));
@@ -30,7 +25,6 @@ function ProblemDetailPage() {
   };
 
   const handleRunCode = () => {
-    // Dispatch the action to run the test cases
     dispatch(testCaseRunAction({ code, language: selectedLanguage }));
   };
 
@@ -38,72 +32,98 @@ function ProblemDetailPage() {
     setSelectedLanguage(event.target.value);
   };
 
-  const handleLogin = () => {
-    navigate("/login")
+  const handleSubmitCode = () => {
+    // Implement code submission logic here
+    console.log("Code submitted!");
   };
 
   return (
-    <div className="container mx-auto px-4 py-2 flex flex-col md:flex-row">
-      <div className="mb-4 md:mb-0 md:pr-4 flex-1 overflow-auto">
-        <div className="problem-details-container">
+    <div className="container mx-auto px-4 py-2">
+      <div className="flex flex-col md:flex-row">
+        <div className="md:w-3/5 md:pr-4 h-screen overflow-y-auto">
           {loading ? (
             <PageLoader />
           ) : error ? (
             <p>Error: {error}</p>
           ) : problem ? (
             <div>
-              <h3 className="text-xl font-semibold mb-2">{problem.title}</h3>
-              <div className="problem-description">
-                <Description initialContent={problem.description} disabled="disabled"/>
+              <h2 className="text-3xl font-semibold mb-2">{problem.title}</h2>
+              <div className="mb-4">
+                <Description initialContent={problem.description} disabled />
               </div>
-              <h4 className="text-lg font-semibold mb-2">Constraints</h4>
-              <div className="problem-constraints">{problem.constraints}</div>
+              <h3 className="text-lg font-semibold mb-2">Constraints</h3>
+              <p>{problem.constraints}</p>
             </div>
           ) : (
             <p>No problem details available</p>
           )}
         </div>
-      </div>
-      <div className="md:w-1/2 pl-4">
-        <div className="mt-4 flex items-center">
-          {userInfo ? (
-            <>
-              <button onClick={handleRunCode} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Run</button>
-              <div className="ml-auto">
-                <select value={selectedLanguage} onChange={handleLanguageChange} className="bg-white border border-gray-400 rounded px-2 py-1">
-                  <option value="javascript">JavaScript</option>
+        <div className="md:w-2/5 pl-4">
+          <div className="flex items-center justify-between mb-4 space-x-4">
+            {userInfo ? (
+              <>
+                <div>
+                  <button onClick={handleRunCode} className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2">Run</button>
+                  <button  onClick={handleSubmitCode} class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">Submit</button>
+                </div>
+                <select value={selectedLanguage} onChange={handleLanguageChange} className="form-select">
                   <option value="python">Python</option>
+                  <option value="javascript">JavaScript</option>
+                  <option value="c/c++">C/C++</option>
                 </select>
+              </>
+            ) : (
+              <button className="btn-primary" disabled>Login to Run</button>
+            )}
+          </div>
+          {results && (
+            <div className="mb-4">
+            {results.isPassed ? (
+              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                <strong className="font-semibold">Accepted!</strong>
+                <p className="mt-2">
+                  <strong>Input:</strong> <br /> {results.input}
+                </p>
+                <p className="mt-1">
+                  <strong>Output:</strong> {results.executedOutput}
+                </p>
+                <p className="mt-1">
+                  <strong>Expected :</strong> {results.actualOutput}
+                </p>
               </div>
-            </>
-          ) : (
-            <button onClick={handleLogin} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</button>
+            ) : (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong className="font-semibold">Error!</strong>
+                <p className="mt-2">
+                  {results.message}
+                </p>
+              </div>
+            )}
+          </div>
           )}
-        </div>
-        <div className="mt-4">{output}</div>
-        <div className="h-full">
-          <MonacoEditor
-            language={selectedLanguage}
-            theme="vs-dark"
-            value={code}
-            options={{
-              selectOnLineNumbers: true,
-              scrollbar: {
-                useShadows: false,
-                vertical: 'visible',
-                horizontal: 'visible',
-                horizontalScrollbarSize: 10,
-                verticalScrollbarSize: 10
-              }
-            }}
-            onChange={handleCodeChange}
-         
+          <div className="h-full">
+            <MonacoEditor
+              language={selectedLanguage}
+              theme="vs-dark"
+              value={code}
+              height="500px"
+              options={{
+                selectOnLineNumbers: true,
+                scrollbar: {
+                  useShadows: false,
+                  vertical: 'visible',
+                  horizontal: 'visible',
+                  horizontalScrollbarSize: 10,
+                  verticalScrollbarSize: 10
+                }
+              }}
+              onChange={handleCodeChange}
             />
-            </div>
           </div>
         </div>
-      );
-    }
-    
-    export default ProblemDetailPage;
-    
+      </div>
+    </div>
+  );
+}
+
+export default ProblemDetailPage;

@@ -1,3 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Scrollbar width */
+::-webkit-scrollbar {
+    width: 8px; /* You can adjust this value */
+  }
+  
+  /* Scrollbar track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color of the track */
+  }
+  
+  /* Scrollbar handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; /* Color of the handle */
+    border-radius: 10px; /* Rounded corners */
+  }
+  
+  /* Scrollbar handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color of the handle on hover */
+  }

@@ -63,6 +63,16 @@ exports.deleteTestCaseById = async (req, res) => {
 };
 
 
+
+function compareArrays(str1, str2) {
+  // Remove whitespace and formatting characters from both strings
+  const cleanStr1 = str1.replace(/\s+/g, '');
+  const cleanStr2 = str2.replace(/\s+/g, '');
+  console.log(cleanStr1, "--> ", cleanStr2)
+  // Compare the cleaned strings
+  return cleanStr1 === cleanStr2;
+}
+
 // testcaseRunController.js
 
 exports.runTestCase = async (req, res) => {
@@ -74,15 +84,43 @@ exports.runTestCase = async (req, res) => {
     const { code, language } = req.body;
 
     // Run the user code against the test cases
-    console.log("hello : ", language)
-    const results = await executeUserCode(code, language, testCases);
-    console.log("result: ", results)
-    return
+    const result = await executeUserCode(code, language, testCases[0]);
+    const executeOutput = result.output;
+    const actualOutput = testCases[0].output;
 
-    // Send the results back to the client
-    res.status(200).json({ success: true, results });
+    // Check if the executeOutput is a JSON array
+    let parsedExecuteOutput;
+    try {
+      parsedExecuteOutput = JSON.parse(executeOutput);
+    } catch (error) {
+      // If parsing fails, treat executeOutput as a space-separated string
+      parsedExecuteOutput = executeOutput.split(/\s+/);
+    }
+
+    // Convert parsedExecuteOutput to a string with spaces
+    const formattedExecuteOutput = Array.isArray(parsedExecuteOutput) ? parsedExecuteOutput.join(' ') : parsedExecuteOutput;
+
+    console.log("Output:", formattedExecuteOutput, "Actual:", actualOutput);
+
+    // Compare the formattedExecuteOutput with the actualOutput
+    const isPassed = formattedExecuteOutput.trim() === actualOutput.trim();
+    const response = {
+      isPassed,
+      input: testCases[0].input,
+      executedOutput: formattedExecuteOutput,
+      actualOutput
+    };
+
+    if (isPassed) {
+      console.log("Accepted");
+      return res.status(200).json({ message: "Accepted", ...response });
+    } else {
+      console.log("Wrong answer");
+      return res.status(200).json({ message: "Wrong answer", ...response });
+    }
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    return res.status(500).json({ message: "Error executing user code", error: error.message });
   }
 };
+
 

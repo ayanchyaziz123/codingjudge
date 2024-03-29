@@ -24,3 +24,5 @@ input_line = input()
 arr = []
 arr = list(map(int, input_line.split()))
 print(productExceptSelf(arr))
+
+    

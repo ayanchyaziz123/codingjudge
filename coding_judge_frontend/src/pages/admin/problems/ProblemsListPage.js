@@ -11,11 +11,11 @@ function ProblemListPage() {
 
   useEffect(() => {
     dispatch(problemListAction());
-  }, [dispatch, success]); // Include success in the dependency array to refetch problems when a deletion is successful
+  }, [dispatch, success]);
 
   const handleEdit = (problemId) => {
-    // Handle edit action
-    console.log(`Editing problem with id ${problemId}`);
+    // Redirect to problem edit page with the problem ID
+    window.location.href = `/problem_edit/${problemId}`;
   };
 
   const handleDelete = (problemId) => {
@@ -25,8 +25,8 @@ function ProblemListPage() {
   return (
     <div className="container mx-auto">
       <h2 className="text-2xl font-semibold mb-4">Problems List</h2>
-      {success && <p className="text-green-600">Problem deleted successfully.</p>} {/* Display success message if deletion is successful */}
-      {error && <p className="text-red-600">{error}</p>} {/* Display error message if deletion fails */}
+      {success && <p className="text-green-600">Problem deleted successfully.</p>}
+      {error && <p className="text-red-600">{error}</p>}
       <Link to="/problem_create">
         <button className="mb-4 inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
           Add New Problem

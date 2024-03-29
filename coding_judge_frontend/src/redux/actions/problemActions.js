@@ -11,7 +11,10 @@ import {
     DELETE_PROBLEM_FAILURE,
     GET_PROBLEM_BY_ID_REQUEST,
     GET_PROBLEM_BY_ID_SUCCESS,
-    GET_PROBLEM_BY_ID_FAILURE
+    GET_PROBLEM_BY_ID_FAILURE,
+    UPDATE_PROBLEM_REQUEST,
+    UPDATE_PROBLEM_SUCCESS,
+    UPDATE_PROBLEM_FAILURE
 } from '../constants/problemConstants';
 
 
@@ -85,6 +88,29 @@ export const problemDeleteAction = (problemId) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: DELETE_PROBLEM_FAILURE,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        });
+    }
+};
+
+export const problemUpdateAction = (problemId, formData) => async (dispatch) => {
+    try {
+        dispatch({ type: UPDATE_PROBLEM_REQUEST });
+        const config = {
+            headers: {
+                'Content-type': 'application/json'
+            }
+        };
+        const { data } = await axios.put(`http://localhost:8000/problem/update/${problemId}`, formData, config);
+        dispatch({
+            type: UPDATE_PROBLEM_SUCCESS,
+            payload: data
+        });
+    } catch (error) {
+        dispatch({
+            type: UPDATE_PROBLEM_FAILURE,
             payload: error.response && error.response.data.detail
                 ? error.response.data.detail
                 : error.message,

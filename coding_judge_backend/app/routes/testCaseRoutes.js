@@ -1,17 +1,16 @@
 // testcaseRoutes.js
-
 const express = require('express');
 const router = express.Router();
-const testCaseController = require('../controllers/testCaseControllers');
+const {createTestCase, getAllTestCases, getTestCaseById, updateTestCaseById, deleteTestCaseById, runTestCase} = require('../controllers/testCaseControllers');
+const loginCheck = require('../middleware/loginCheck')
 
 // Routes for test cases
-router.post('/create', testCaseController.createTestCase);
-router.get('/get_all', testCaseController.getAllTestCases);
-router.get('/get/:id', testCaseController.getTestCaseById);
-router.put('/update/:id', testCaseController.updateTestCaseById);
-router.delete('/delete/:id', testCaseController.deleteTestCaseById);
 
-// Route for running test cases
-router.post('/run', testCaseController.runTestCase);
+router.post('/create', createTestCase);
+router.get('/get_all', getAllTestCases);
+router.get('/get/:id', getTestCaseById);
+router.put('/update/:id', updateTestCaseById);
+router.delete('/delete/:id', deleteTestCaseById);
+router.route('/run').post(loginCheck, runTestCase)
 
 module.exports = router;

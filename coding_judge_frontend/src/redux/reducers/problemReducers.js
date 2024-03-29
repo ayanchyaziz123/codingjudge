@@ -13,7 +13,10 @@ import {
     EDIT_PROBLEM_FAILURE,
     GET_PROBLEM_BY_ID_REQUEST,
     GET_PROBLEM_BY_ID_SUCCESS,
-    GET_PROBLEM_BY_ID_FAILURE
+    GET_PROBLEM_BY_ID_FAILURE,
+    UPDATE_PROBLEM_REQUEST,
+    UPDATE_PROBLEM_SUCCESS,
+    UPDATE_PROBLEM_FAILURE
 } from '../constants/problemConstants';
 
 export const problemCreateReducer = (state = {}, action) => {
@@ -93,6 +96,22 @@ export const problemGetByIdReducer = (state = { problem: {} }, action) => {
 
         case GET_PROBLEM_BY_ID_FAILURE:
             return { loading: false, error: action.payload };
+
+        default:
+            return state;
+    }
+};
+
+export const problemUpdateReducer = (state = {}, action) => {
+    switch (action.type) {
+        case UPDATE_PROBLEM_REQUEST:
+            return { updateLoading: true };
+
+        case UPDATE_PROBLEM_SUCCESS:
+            return {updateLoading: false, updateSuccess: true };
+
+        case UPDATE_PROBLEM_FAILURE:
+            return { updateLoading: false, error: action.payload };
 
         default:
             return state;
