@@ -1,18 +1,21 @@
-// CategoryEditPage.js
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { categoryEditAction } from '../../../redux/actions/categoryActions';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { categoryEditAction, categoryGetByIdAction, resetCategoryState } from '../../../redux/actions/categoryActions';
 
 function CategoryEditPage() {
   const { id } = useParams();
   const [categoryName, setCategoryName] = useState('');
   const [categoryDescription, setCategoryDescription] = useState('');
-  const categoryEdit = useSelector(state => state.categoryEditReducer);
-  const {success, loading, category} = categoryEdit;
+  const { category, loading: categoryGetByIdLoading, error: categoryGetByIdError } = useSelector(state => state.categoryGetByIdReducer);
+  const { loading: categoryEditLoading, error: categoryEditError, success: categoryEditSuccess } = useSelector(state => state.categoryEditReducer);
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  useEffect(() => {
+    dispatch(categoryGetByIdAction(id));
+  }, [dispatch, id]);
 
   useEffect(() => {
     if (category) {
@@ -22,10 +25,23 @@ function CategoryEditPage() {
   }, [category]);
 
   useEffect(() => {
-    if (success) {
-      navigate('/categories_list');
+    if (categoryEditSuccess) {
+      // Reset form fields and error messages
+      setCategoryName('');
+      setCategoryDescription('');
+      dispatch(resetCategoryState());
+  
+      // Show success message for 3 seconds
+      setShowSuccess(true);
+      
+      // After 3 seconds, navigate to categories list page
+      setTimeout(() => {
+        setShowSuccess(false);
+        navigate('/categories_list');
+      }, 2000);
     }
-  }, [success]);
+  }, [categoryEditSuccess, navigate, dispatch]);
+  
 
   const handleCategoryNameChange = (e) => {
     setCategoryName(e.target.value);
@@ -37,13 +53,17 @@ function CategoryEditPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!categoryName.trim()) return; // Prevent adding empty category names
+    if (!categoryName.trim()) return;
+
     dispatch(categoryEditAction(id, { name: categoryName, description: categoryDescription }));
   };
 
   return (
     <div className="mx-auto max-w-md mt-8 px-4">
       <h2 className="text-2xl font-semibold mb-4">Edit Category</h2>
+      {categoryGetByIdError && <div className="text-red-600 mb-4">{categoryGetByIdError}</div>} {/* Error message div */}
+      {categoryEditError && <div className="text-red-600 mb-4">{categoryEditError}</div>} {/* Error message div */}
+      {showSuccess && <div className="text-green-600 mb-4">Category successfully updated!</div>} {/* Success message div */}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="categoryName" className="block text-sm font-medium text-gray-700">Category Name</label>

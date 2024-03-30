@@ -86,15 +86,20 @@ export const testCaseRunAction = (submissionData) => async (dispatch, getState) 
         const config = {
             headers: {
                 'Content-type': 'application/json',
-                Authorization: `Bearer ${userInfo ?  userInfo.token : null}`
+                Authorization: `Bearer ${userInfo ? userInfo.token : null}`
             }
         }
+
         const { data } = await axios.post('http://localhost:8000/testcase/run', submissionData, config);
         dispatch({
             type: RUN_TEST_CASE_SUCCESS,
             payload: data // You can pass additional data if needed
         });
     } catch (error) {
+        if (error.response && error.response.status === 401) {
+            // Token not valid, remove userInfo from local storage
+            localStorage.removeItem('userInfo');
+        }
         dispatch({
             type: RUN_TEST_CASE_FAILURE,
             payload: error.response && error.response.data.detail
@@ -103,6 +108,7 @@ export const testCaseRunAction = (submissionData) => async (dispatch, getState) 
         });
     }
 };
+
 
 
 

@@ -13,7 +13,7 @@ const loginCheck = async (req, res, next) => {
         req.email = email;
         next();
     } catch (error) {
-        return res.status(401).json({ detail: 'Authentication failed. Please log in again!' });
+        return res.status(401).json({ tokenNotValid: true, detail: 'Authentication failed. Please log in again!' });
     }
 };
 

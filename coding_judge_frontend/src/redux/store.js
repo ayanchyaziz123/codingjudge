@@ -5,7 +5,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import {
     LoginReducer,
 } from './reducers/authReducers'
-import {categoryCreateReducer, categoryListReducer, categoryDeleteReducer} from './reducers/categoryReducers';
+import {categoryCreateReducer, categoryListReducer, categoryDeleteReducer, categoryGetByIdReducer, categoryEditReducer} from './reducers/categoryReducers';
 import { problemCreateReducer, problemListReducer, problemDeleteReducer, problemGetByIdReducer, problemUpdateReducer } from './reducers/problemReducers';
 import { testcaseCreateReducer, testcaseRunReducer } from './reducers/testcaseReducers';
 
@@ -22,7 +22,9 @@ const reducer = combineReducers({
     problemGetByIdReducer: problemGetByIdReducer,
     testcaseCreateReducer: testcaseCreateReducer,
     testcaseRunReducer: testcaseRunReducer,
-    problemUpdateReducer: problemUpdateReducer
+    problemUpdateReducer: problemUpdateReducer,
+    categoryGetByIdReducer: categoryGetByIdReducer,
+    categoryEditReducer: categoryEditReducer
 })
 
 

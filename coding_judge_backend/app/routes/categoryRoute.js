@@ -3,6 +3,8 @@
 const express = require('express');
 const router = express.Router();
 const categoryController = require('../controllers/categoryControllers');
+const isAdminCheck = require('../middleware/isAdminCheck');
+
 
 // Route to create a new category
 router.post('/create', categoryController.createCategory);
@@ -14,9 +16,9 @@ router.get('/categories', categoryController.listCategories);
 router.delete('/delete/:id', categoryController.deleteCategory);
 
 // Route to get a category by ID
-router.get('/:id', categoryController.getCategoryById);
+router.get('/get/:id', categoryController.getCategoryById);
 
 // Route to edit a category
-router.put('/edit/:id', categoryController.editCategory);
+router.route('/edit/:id').put(isAdminCheck, categoryController.editCategory)
 
 module.exports = router;

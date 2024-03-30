@@ -1,17 +1,26 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { categoryListAction, categoryDeleteAction } from '../../../redux/actions/categoryActions';
 import PageLoader from '../../../components/common/PageLoader';
+import { CREATE_CATEGORY_RESET } from '../../../redux/constants/categoryConstants';
 
 function CategoriesListPage() {
   const dispatch = useDispatch();
   const { loading, categories } = useSelector(state => state.categoryListReducer);
   const { success, error } = useSelector(state => state.categoryDeleteReducer);
+  const navigate = useNavigate();
+
+  const userLogin = useSelector(state => state.userLogin)
+  const { userInfo } = userLogin
 
   useEffect(() => {
+    if(!userInfo){
+      navigate('/login')
+    }
+    dispatch({ type: CREATE_CATEGORY_RESET })
     dispatch(categoryListAction());
-  }, [dispatch, success]); // Include success in the dependency array to refetch categories when a deletion is successful
+  }, [dispatch, success, userInfo]); // Include success in the dependency array to refetch categories when a deletion is successful
 
   const handleEdit = (categoryId) => {
     // Handle edit action
@@ -51,7 +60,9 @@ function CategoriesListPage() {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{category.name}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{category.description.length > 50 ? category.description.substring(0, 50) + '...' : category.description}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <button className="text-indigo-600 hover:text-indigo-900 mr-2" onClick={() => handleEdit(category._id)}>Edit</button>
+                <Link to={`/category_edit/${category._id}`}>
+                    <button className="text-indigo-600 hover:text-indigo-900 mr-2">Edit</button>
+                  </Link>
                   <button className="text-red-600 hover:text-red-900" onClick={() => handleDelete(category._id)}>Delete</button>
                 </td>
               </tr>

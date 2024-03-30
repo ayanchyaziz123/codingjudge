@@ -10,9 +10,20 @@ import {
     CREATE_CATEGORY_FAILURE,
     DELETE_CATEGORY_REQUEST,
     DELETE_CATEGORY_SUCCESS,
-    DELETE_CATEGORY_FAILURE
+    DELETE_CATEGORY_FAILURE,
+    GET_CATEGORY_BY_ID_REQUEST,
+    GET_CATEGORY_BY_ID_SUCCESS,
+    GET_CATEGORY_BY_ID_FAILURE,
+    EDIT_CATEGORY_REQUEST,
+    EDIT_CATEGORY_SUCCESS,
+    EDIT_CATEGORY_FAILURE,
+    RESET_CATEGORY_STATE
   } from '../constants/categoryConstants';
   
+
+  export const resetCategoryState = () => ({
+    type: RESET_CATEGORY_STATE
+  });
   // Action creator to create a new category
   export const categoryCreateAction = (formData) => async (dispatch) => {
     try {
@@ -85,4 +96,63 @@ export const categoryDeleteAction = (categoryId) => async (dispatch) => {
         });
     }
 };
+
+export const categoryGetByIdAction = (categoryId) => async (dispatch) => {
+    try {
+        console.log("hello world..!")
+        dispatch({ type: GET_CATEGORY_BY_ID_REQUEST });
+        const { data } = await axios.get(`http://localhost:8000/category/get/${categoryId}`);
+
+        dispatch({
+            type: GET_CATEGORY_BY_ID_SUCCESS,
+            payload: data
+        });
+
+    } catch (error) {
+        dispatch({
+            type: GET_CATEGORY_BY_ID_FAILURE,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        });
+    }
+};
+
+export const categoryEditAction = (categoryId, formData) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: EDIT_CATEGORY_REQUEST });
+
+        const {
+            userLogin: { userInfo },
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${userInfo ? userInfo.token : null}`
+            }
+        }
+        console.log(userInfo.token)
+
+        const { data } = await axios.put(
+            `http://localhost:8000/category/edit/${categoryId}`,
+            formData,
+            config
+        );
+
+        dispatch({
+            type: EDIT_CATEGORY_SUCCESS,
+            payload: data
+        });
+
+    } catch (error) {
+        dispatch({
+            type: EDIT_CATEGORY_FAILURE,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message,
+        });
+    }
+};
+
   

@@ -20,6 +20,9 @@ import CategoryCreatePage from './pages/admin/categories/CategoryCreatePage';
 import ProblemDetailPage from './pages/users/ProblemDetailPage';
 import TestCaseCreatePage from './pages/admin/testcases/TestCaseCreatePage';
 import ProblemEditPage from './pages/admin/problems/ProblemEditPage';
+import CategoryEditPage from './pages/admin/categories/CategoryEditPage';
+
+
 
 
 
@@ -50,6 +53,7 @@ const App = () => {
           <Route path="/problem_detail/:id" element={<ProblemDetailPage />} />
           <Route path="/testcase_create" element={<TestCaseCreatePage />} />
           <Route path='/problem_edit/:id' element={<ProblemEditPage/>}/>
+          <Route path='/category_edit/:id' element={<CategoryEditPage/>}/>
           
  
         </Routes>

@@ -18,7 +18,7 @@ function ProblemDetailPage() {
 
   useEffect(() => {
     dispatch(ProblemGetByIdAction(id));
-  }, [dispatch, id]);
+  }, [dispatch, id, userInfo]);
 
   const handleCodeChange = (newValue) => {
     setCode(newValue);

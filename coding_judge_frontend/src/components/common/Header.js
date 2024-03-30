@@ -40,7 +40,7 @@ export default function Header() {
         <div className="flex lg:flex-1">
           <a href="/" className="-m-1.5 p-1.5">
             <span className="sr-only">pijudge</span>
-            <img className="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="" />
+            <img className="h-8 w-auto" src="https://c8.alamy.com/comp/HB0JAA/golden-pi-symbol-HB0JAA.jpg" alt="" />
           </a>
         </div>
         <div className="flex lg:hidden">
@@ -67,7 +67,7 @@ export default function Header() {
           </a>
           <Popover className="relative">
             <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
-              Profile
+            {userInfo && userInfo.username}
               <ChevronDownIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
             </Popover.Button>
 
@@ -121,7 +121,7 @@ export default function Header() {
           userInfo ? <>
             <div className="hidden lg:flex lg:flex-1 lg:justify-end">
               <Link to="/login" className="text-sm font-semibold leading-6 text-gray-900">
-                profile <span aria-hidden="true">&rarr;</span>
+                {userInfo.username} <span aria-hidden="true">&rarr;</span>
               </Link>
             </div>
           </> :

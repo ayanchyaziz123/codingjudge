@@ -1,43 +1,47 @@
-// CategoryCreatePage.js
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { categoryCreateAction } from '../../../redux/actions/categoryActions';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function CategoryCreatePage({ onCategoryAdd }) {
   const [categoryName, setCategoryName] = useState('');
   const [categoryDescription, setCategoryDescription] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false)
   const categoryCreate = useSelector(state => state.categoryCreateReducer);
-  const {success, loading, category} = categoryCreate
+  const { success, loading, category } = categoryCreate;
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
-
-
   useEffect(() => {
-    if(success){
-      navigate('/categories_list')
-    }
-}, [success])
+    if (success) {
+      setShowSuccess(true)
+      setTimeout(() => {
+        setShowSuccess(false)
+        navigate('/categories_list');
+      }, 2000); // 3 seconds timeout
 
-  const handleCategoryNameChange = (e) => {
+      // Clean up the timeout to avoid memory leaks
+    }
+  }, [success, navigate]);
+
+  const handleCategoryNameChange = e => {
     setCategoryName(e.target.value);
   };
 
-  const handleCategoryDescriptionChange = (e) => {
+  const handleCategoryDescriptionChange = e => {
     setCategoryDescription(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     if (!categoryName.trim()) return; // Prevent adding empty category names
-    dispatch(categoryCreateAction({ name: categoryName, description: categoryDescription }))
+    dispatch(categoryCreateAction({ name: categoryName, description: categoryDescription }));
   };
 
   return (
     <div className="mx-auto max-w-md mt-8 px-4">
       <h2 className="text-2xl font-semibold mb-4">Add New Category</h2>
+      {showSuccess && <div className="text-green-600 mb-4">Category successfully Created!</div>} {/* Success message div */}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="categoryName" className="block text-sm font-medium text-gray-700">Category Name</label>
