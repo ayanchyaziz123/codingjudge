@@ -16,7 +16,7 @@ def productExceptSelf(nums):
         res[ple] = val
         return res
     for i in range(n):
-        res[i] = val // nums[i]
+        res[i] = val // nums[i]+1
     return res
 
 n = int(input())

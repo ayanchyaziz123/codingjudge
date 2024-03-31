@@ -1,23 +1,59 @@
-const { exec } = require('child_process');
+const util = require('util');
+const { exec, spawn } = require('child_process');
+const fs = require('fs');
+const execAsync = util.promisify(exec);
+// Run a Python script and return output
+function main(scriptPath, args, input) {
+  return new Promise((resolve, reject) => {
+    // Use child_process.spawn method from 
+    // child_process module and assign it to variable
+    const pyProg = spawn('python', [scriptPath].concat(args));
 
-function runPythonCode(code, input, callback) {
-    // Python command to execute code and read input from stdin
-    const command = `python -c "${code}"`;
+    // Provide input to the Python script, if any
+    if (input) {
+      pyProg.stdin.write(input);
+      pyProg.stdin.end();
+    }
 
-    // Spawn a child process to execute the Python code
-    const childProcess = exec(command, (error, stdout, stderr) => {
-        if (error) {
-            // If an error occurs during execution
-            callback(error.message, null);
-        } else {
-            // If execution is successful, return the output
-            callback(null, stdout);
-        }
+    // Collect data from script
+    let data = '';
+    pyProg.stdout.on('data', (stdout) => {
+      data += stdout.toString();
     });
 
-    // Provide input to the Python code via stdin
-    childProcess.stdin.write(input);
-    childProcess.stdin.end();
+    // Handle errors
+    pyProg.stderr.on('data', (stderr) => {
+      reject(`stderr: ${stderr}`);
+    });
+
+    // When script execution is complete
+    pyProg.on('close', (code) => {
+      if (code !== 0) {
+        reject(`child process exited with code ${code}`);
+      } else {
+        resolve(data); // Resolve with collected data
+      }
+    });
+  });
 }
 
-module.exports = runPythonCode;
+
+async function runPythonCode(code, input) {
+    const tempFilePath = 'temp.py';
+    fs.writeFileSync(tempFilePath, code);
+  
+    // Prepare input string
+    const inputString = input.trim(); // Remove leading/trailing whitespace
+  
+    try {
+        const output = await main(tempFilePath, [], inputString);
+        console.log("Output : ",output)
+        return output;
+    } catch (error) {
+        throw new Error(`Error executing Python script: ${error}`);
+    }
+  }
+  
+  module.exports = {
+    runPythonCode
+  };

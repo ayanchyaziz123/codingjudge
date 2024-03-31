@@ -43,10 +43,10 @@ export const testcaseRunReducer = (state = {}, action) => {
             return { success: false, loading: true };
 
         case RUN_TEST_CASE_SUCCESS:
-            return { success: true, loading: false, results: action.payload };
+            return { success: true, loading: false, result: action.payload };
 
         case RUN_TEST_CASE_FAILURE:
-            return { success: false, loading: false, error: action.payload };
+            return { success: false, loading: false, error: action.payload.detail };
 
         default:
             return state;

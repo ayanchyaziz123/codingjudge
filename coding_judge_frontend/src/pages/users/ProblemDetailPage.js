@@ -13,7 +13,7 @@ function ProblemDetailPage() {
   const [selectedLanguage, setSelectedLanguage] = useState('python');
   const dispatch = useDispatch();
   const { loading, problem, error } = useSelector(state => state.problemGetByIdReducer);
-  const results = useSelector(state => state.testcaseRunReducer?.results);
+  const {loading: testcaseRunLoading, success: testcaseRunSuccess, error: testcaseRunError, result} = useSelector(state => state.testcaseRunReducer);
   const userInfo = useSelector(state => state.userLogin.userInfo);
 
   useEffect(() => {
@@ -76,31 +76,71 @@ function ProblemDetailPage() {
               <button className="btn-primary" disabled>Login to Run</button>
             )}
           </div>
-          {results && (
-            <div className="mb-4">
-            {results.isPassed ? (
-              <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-                <strong className="font-semibold">Accepted!</strong>
-                <p className="mt-2">
-                  <strong>Input:</strong> <br /> {results.input}
-                </p>
-                <p className="mt-1">
-                  <strong>Output:</strong> {results.executedOutput}
-                </p>
-                <p className="mt-1">
-                  <strong>Expected :</strong> {results.actualOutput}
-                </p>
-              </div>
-            ) : (
-              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                <strong className="font-semibold">Error!</strong>
-                <p className="mt-2">
-                  {results.message}
-                </p>
-              </div>
-            )}
-          </div>
-          )}
+          {result && (
+  <div className="mb-4">
+   {testcaseRunLoading ? (
+  <div className="text-center">Loading...</div>
+) : testcaseRunError ? (<div><h1>Error</h1></div>) : (
+  result.isPassed ? (
+    <div className="border border-green-500 bg-green-100 text-green-700 px-6 py-4 rounded-md shadow-md">
+  <div className="flex items-center">
+    <span className="text-lg text-green-800 font-semibold mr-2">Accepted!</span>
+    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-600" viewBox="0 0 20 20" fill="currentColor">
+      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.293 9.293a1 1 0 011.414 0L11 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414z" clipRule="evenodd" />
+    </svg>
+  </div>
+  <div className="mt-4">
+    <div className="flex">
+      <div className="mr-8">
+        <p className="text-sm text-green-700 font-semibold">Input:</p>
+        {result.input.split('\n').map((line, index) => (
+          <div key={index} className="text-sm">{line}</div>
+        ))}
+      </div>
+      <div>
+        <p className="text-sm text-green-700 font-semibold">Output:</p>
+        <div className="text-sm">{result.executedOutput}</div>
+      </div>
+    </div>
+    <div className="mt-4">
+      <p className="text-sm text-green-700 font-semibold">Expected Output:</p>
+      <div className="text-sm">{result.actualOutput}</div>
+    </div>
+  </div>
+</div>
+
+  ) : (
+    <div className="border border-red-500 bg-red-100 text-red-700 px-6 py-4 rounded-md shadow-md">
+    <div className="flex items-center">
+      <span className="text-lg text-red-800 font-semibold mr-2">Wrong Answer!</span>
+      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-600" viewBox="0 0 20 20" fill="currentColor">
+        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM6.707 9.293a1 1 0 011.414 0L10 11.586l2.879-2.88a1 1 0 111.414 1.414L11.414 13l2.88 2.879a1 1 0 11-1.414 1.414L10 14.414l-2.879 2.88a1 1 0 01-1.414-1.414L8.586 13 5.707 10.121a1 1 0 010-1.414z" clipRule="evenodd" />
+      </svg>
+    </div>
+    <div className="mt-4">
+      <div className="flex">
+      <div className="mr-8">
+        <p className="text-sm text-red-700 font-semibold">Input:</p>
+        {result.input.split('\n').map((line, index) => (
+          <div key={index} className="text-sm">{line}</div>
+        ))}
+      </div>
+        <div>
+          <p className="text-sm text-red-700 font-semibold">Output:</p>
+          <div className="text-sm">{result.executedOutput}</div>
+        </div>
+      </div>
+      <div className="mt-4">
+        <p className="text-sm text-red-700 font-semibold">Expected Output:</p>
+        <div className="text-sm">{result.actualOutput}</div>
+      </div>
+    </div>
+  </div>
+  
+  )
+)}
+  </div>
+)}
           <div className="h-full">
             <MonacoEditor
               language={selectedLanguage}

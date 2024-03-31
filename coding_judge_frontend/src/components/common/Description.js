@@ -17,12 +17,6 @@ const Description = ({ initialContent, disabled }) => {
     setEditorState(newEditorState);
   };
 
-  // useEffect(() => {
-  //   if (disabled) {
-  //     // If disabled, set the editor state to read-only
-  //     setEditorState(EditorState.set(editorState, { readOnly: true }));
-  //   }
-  // }, [disabled]); // Update when the disabled prop changes
 
   return (
     <div>

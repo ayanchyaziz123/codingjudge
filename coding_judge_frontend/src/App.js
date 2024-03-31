@@ -21,6 +21,7 @@ import ProblemDetailPage from './pages/users/ProblemDetailPage';
 import TestCaseCreatePage from './pages/admin/testcases/TestCaseCreatePage';
 import ProblemEditPage from './pages/admin/problems/ProblemEditPage';
 import CategoryEditPage from './pages/admin/categories/CategoryEditPage';
+import AdminDashboardPage from './pages/admin/AdminDashboardPage';
 
 
 
@@ -54,6 +55,7 @@ const App = () => {
           <Route path="/testcase_create" element={<TestCaseCreatePage />} />
           <Route path='/problem_edit/:id' element={<ProblemEditPage/>}/>
           <Route path='/category_edit/:id' element={<CategoryEditPage/>}/>
+          <Route path='/admin_dashboard' element={<AdminDashboardPage/>}/>
           
  
         </Routes>
