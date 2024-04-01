@@ -15,7 +15,7 @@ function ProblemDetailPage() {
   const { loading, problem, error } = useSelector(state => state.problemGetByIdReducer);
   const {loading: testcaseRunLoading, success: testcaseRunSuccess, error: testcaseRunError, result} = useSelector(state => state.testcaseRunReducer);
   const userInfo = useSelector(state => state.userLogin.userInfo);
-
+  console.log("Problems : ", problem)
   useEffect(() => {
     dispatch(ProblemGetByIdAction(id));
   }, [dispatch, id, userInfo]);
@@ -50,6 +50,13 @@ function ProblemDetailPage() {
               <h2 className="text-3xl font-semibold mb-2">{problem.title}</h2>
               <div className="mb-4">
                 <Description initialContent={problem.description} disabled />
+              </div>
+              <h3 className="text-lg font-semibold mb-2">Category: {problem.category && problem.category.name}</h3> {/* Display category name */}
+              <h3 className="text-lg font-semibold mb-2">Tags:</h3>
+              <div className="flex flex-wrap mb-4">
+                {problem.tags && problem.tags.map(tag => (
+                  <span key={tag._id} className="bg-gray-200 text-gray-800 rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2">{tag.name}</span>
+                ))}
               </div>
               <h3 className="text-lg font-semibold mb-2">Constraints</h3>
               <p>{problem.constraints}</p>

@@ -24,10 +24,14 @@ exports.getAllProblems = async (req, res) => {
 // Controller function to get a single problem by ID
 exports.getProblemById = async (req, res) => {
   try {
-    const problem = await Problem.findById(req.params.id);
+    const problem = await Problem.findById(req.params.id)
+      .populate('tags') // Populate the tags field
+      .populate('category'); // Populate the category field
+
     if (!problem) {
       return res.status(404).json({ success: false, error: 'Problem not found' });
     }
+
     res.json({ success: true, problem });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
