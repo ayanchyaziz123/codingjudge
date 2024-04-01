@@ -72,7 +72,7 @@ exports.login = async (req, res, next) => {
       email: existingUser.email,
       userId: existingUser._id
     }, "Abcdef123", {
-      expiresIn: '1h'
+      expiresIn: '3h'
     });
     console.log("Token:", token); // Log generated token for debugging
 

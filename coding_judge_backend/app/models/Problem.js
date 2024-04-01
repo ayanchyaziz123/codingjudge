@@ -26,6 +26,14 @@ const problemSchema = new mongoose.Schema({
   isPublic: {
     type: Boolean,
     default: false
+  },
+  tags: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Tag'
+  }],
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category'
   }
 });
 

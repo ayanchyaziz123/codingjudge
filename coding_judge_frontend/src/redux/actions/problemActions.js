@@ -103,7 +103,7 @@ export const problemUpdateAction = (problemId, formData) => async (dispatch) => 
                 'Content-type': 'application/json'
             }
         };
-        const { data } = await axios.put(`http://localhost:8000/problem/update/${problemId}`, formData, config);
+        const { data } = await axios.put(`http://localhost:8000/problem/edit/${problemId}`, formData, config);
         dispatch({
             type: UPDATE_PROBLEM_SUCCESS,
             payload: data

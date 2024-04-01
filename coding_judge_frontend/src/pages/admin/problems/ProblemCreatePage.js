@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { problemCreateAction } from '../../../redux/actions/problemActions';
 import RichTextField from '../../../components/admin/RichTextField';
+import { categoryListAction } from '../../../redux/actions/categoryActions';
+import { tagListAction } from '../../../redux/actions/tagActions';
 
 function ProblemCreatePage() {
   const [problemTitle, setProblemTitle] = useState('');
@@ -11,12 +13,20 @@ function ProblemCreatePage() {
   const [timeLimit, setTimeLimit] = useState('');
   const [memoryLimit, setMemoryLimit] = useState('');
   const [isPublic, setIsPublic] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedTags, setSelectedTags] = useState([]);
 
   const problemCreate = useSelector(state => state.problemCreateReducer);
+  const { loading: categoryListLoading, categories } = useSelector(state => state.categoryListReducer);
+  const { loading: tagListLoading, tags } = useSelector(state => state.tagListReducer);
   const { success, loading } = problemCreate;
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(categoryListAction());
+    dispatch(tagListAction());
+  }, [dispatch]);
 
   useEffect(() => {
     if (success) {
@@ -29,7 +39,6 @@ function ProblemCreatePage() {
   };
 
   const handleProblemDescriptionChange = (content) => {
-    console.log(content)
     setProblemDescription(content);
   };
 
@@ -51,14 +60,16 @@ function ProblemCreatePage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!problemTitle.trim()) return; // Prevent adding empty problem titles
+    if (!problemTitle.trim()) return;
     dispatch(problemCreateAction({ 
       title: problemTitle, 
       description: problemDescription, 
       difficulty,
       timeLimit: parseInt(timeLimit), 
       memoryLimit: parseInt(memoryLimit), 
-      isPublic 
+      isPublic,
+      category: selectedCategory,
+      tags: selectedTags
     }));
   };
 
@@ -116,11 +127,38 @@ function ProblemCreatePage() {
               type="checkbox"
               checked={isPublic}
               onChange={handleIsPublicChange}
-              className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-            />
+              className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"/>
             <label htmlFor="isPublic" className="ml-2 block text-sm text-gray-900">
               Make Problem Public
             </label>
+          </div>
+          <div className="flex flex-col mb-4">
+            <label htmlFor="selectedCategory" className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+            <select
+              id="selectedCategory"
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            >
+              <option value="">Select Category</option>
+              {categories.map(category => (
+                <option key={category._id} value={category._id}>{category.name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="flex flex-col mb-4">
+            <label htmlFor="selectedTags" className="block text-sm font-medium text-gray-700 mb-1">Tags</label>
+            <select
+              id="selectedTags"
+              value={selectedTags}
+              onChange={(e) => setSelectedTags(Array.from(e.target.selectedOptions, option => option.value))}
+              className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              multiple
+            >
+              {tags.map(tag => (
+                <option key={tag._id} value={tag._id}>{tag.name}</option>
+              ))}
+            </select>
           </div>
           <button
             type="submit"
@@ -133,8 +171,8 @@ function ProblemCreatePage() {
           <div className="flex flex-col">
             <label htmlFor="problemDescription" className="block text-sm font-medium text-gray-700 mb-1">Problem Description</label>
             <RichTextField
-              initialContent={problemDescription}  // Pass initialContent to RichTextField
-              onContentChange={handleProblemDescriptionChange} // Pass onContentChange to RichTextField
+              initialContent={problemDescription}
+              onContentChange={handleProblemDescriptionChange}
             />
           </div>
         </div>

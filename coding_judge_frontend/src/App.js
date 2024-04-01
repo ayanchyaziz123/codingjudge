@@ -22,6 +22,7 @@ import TestCaseCreatePage from './pages/admin/testcases/TestCaseCreatePage';
 import ProblemEditPage from './pages/admin/problems/ProblemEditPage';
 import CategoryEditPage from './pages/admin/categories/CategoryEditPage';
 import AdminDashboardPage from './pages/admin/AdminDashboardPage';
+import TagEditPage from './pages/admin/tags/TagEditPage';
 
 
 
@@ -47,8 +48,12 @@ const App = () => {
           <Route path="/test" element={<TestPage />} />
           <Route path="/admin_problem_list" element={<AdminProblemsListPage />} />
           <Route path="/problem_create" element={<ProblemCreatePage />} />
-          <Route path="/tag_list" element={<TagsListPage />} />
+
+          <Route path="/tags_list" element={<TagsListPage />} />
           <Route path="/tag_create" element={<TagCreatePage />} />
+          <Route path="/tag_edit/:id" element={<TagEditPage />} />
+
+
           <Route path="/categories_list" element={<CategoriesListPage />} />
           <Route path="/category_create" element={<CategoryCreatePage />} />
           <Route path="/problem_detail/:id" element={<ProblemDetailPage />} />

@@ -8,6 +8,8 @@ import {
 import {categoryCreateReducer, categoryListReducer, categoryDeleteReducer, categoryGetByIdReducer, categoryEditReducer} from './reducers/categoryReducers';
 import { problemCreateReducer, problemListReducer, problemDeleteReducer, problemGetByIdReducer, problemUpdateReducer } from './reducers/problemReducers';
 import { testcaseCreateReducer, testcaseRunReducer } from './reducers/testcaseReducers';
+import { tagCreateReducer, tagListReducer, tagDeleteReducer, tagGetByIdReducer, tagEditReducer } from './reducers/tagReducers';
+
 
 
 
@@ -24,7 +26,12 @@ const reducer = combineReducers({
     testcaseRunReducer: testcaseRunReducer,
     problemUpdateReducer: problemUpdateReducer,
     categoryGetByIdReducer: categoryGetByIdReducer,
-    categoryEditReducer: categoryEditReducer
+    categoryEditReducer: categoryEditReducer,
+    tagCreateReducer: tagCreateReducer,
+    tagListReducer: tagListReducer,
+    tagDeleteReducer: tagDeleteReducer,
+    tagGetByIdReducer: tagGetByIdReducer,
+    tagEditReducer: tagEditReducer
 })
 
 
