@@ -59,7 +59,7 @@ export default function Header() {
           <a href="/problem_list" className="text-sm font-semibold leading-6 text-gray-900">
             Problems
           </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
+          <a href="/leaderboard" className="text-sm font-semibold leading-6 text-gray-900">
             Leaderboard
           </a>
           <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
